@@ -20,17 +20,72 @@
         .nav-sub a { color: #aaaaaa; text-decoration: none; }
         .nav-sub a.ai-option { color: #116efc; font-weight: 700; }
 
-        main { max-width: 800px; margin: 0 auto; padding: 24px 16px; }
+        main { max-width: 1000px; margin: 0 auto; padding: 24px 16px; }
         
-        /* News UI Layout Cards */
-        .section-label { color: #116efc; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
-        .main-headline { font-family: 'Lora', serif; font-size: 32px; line-height: 1.15; font-weight: 700; margin-bottom: 12px; }
-        .sub-headline { font-size: 15px; color: #aaaaaa; line-height: 1.4; margin-bottom: 12px; }
-        .byline { font-size: 12px; color: #777777; margin-bottom: 16px; }
-        
-        .media-container { margin-bottom: 16px; background-color: #1a1a1a; border-radius: 4px; overflow: hidden; }
-        .featured-image, .featured-video { width: 100%; height: auto; display: block; }
-        hr { border: 0; height: 1px; background: #2d2d2d; margin: 24px 0; }
+        /* Premium Responsive Table Styling */
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin: 12px 0;
+            border: 1px solid #2d2d2d;
+            border-radius: 6px;
+            background-color: #1a1a1a;
+        }
+
+        .news-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            text-align: left;
+            min-width: 700px; 
+        }
+
+        .news-table th {
+            background-color: #242424;
+            color: #116efc;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+            padding: 14px 16px;
+            border-bottom: 2px solid #2d2d2d;
+        }
+
+        .news-table td {
+            padding: 16px;
+            border-bottom: 1px solid #2d2d2d;
+            vertical-align: middle;
+            line-height: 1.4;
+        }
+
+        .news-table tr:nth-child(even) {
+            background-color: #151515;
+        }
+
+        .news-table tr:hover {
+            background-color: #1f1f1f;
+            transition: background-color 0.2s ease;
+        }
+
+        /* Database Media Previews */
+        .table-thumb {
+            width: 70px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 4px;
+            background-color: #121212;
+            display: block;
+        }
+
+        .table-badge {
+            background-color: rgba(17, 110, 252, 0.15);
+            color: #116efc;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            display: inline-block;
+        }
 
         .loading-status { text-align: center; color: #666; font-size: 14px; padding: 40px 0; font-style: italic; }
     </style>
@@ -44,84 +99,101 @@
     </header>
 
     <div class="nav-sub">
-        <a href="#" class="active">Top Stories</a>
+        <a href="#" class="active">Database Dashboard</a>
         <a class="ai-option">Ngetich AI Active</a>
     </div>
 
     <main>
-        <div id="liveNewsFeed">
-            <p class="loading-status" id="loadingText">Connecting to cloud sheet database...</p>
+        <div class="table-container">
+            <table class="news-table">
+                <thead>
+                    <tr>
+                        <th>Media</th>
+                        <th>Category</th>
+                        <th>Headline</th>
+                        <th>Summary / Content Preview</th>
+                    </tr>
+                </thead>
+                <tbody id="liveNewsTableBody">
+                    <tr>
+                        <td colspan="4" class="loading-status" id="loadingText">
+                            Connecting to cloud sheet database...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
 
     <script>
-        // ⚠️ CRITICAL SETUP: Replace the string below with your real Spreadsheet ID from Step 2
-        const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID_HERE";
+        // Your live Google Spreadsheet Database ID
+        const SPREADSHEET_ID = "1JhqEInJIVrBX074NooN8ROcTQIdOhWfb-rhPbqbTk0U";
         
-        // This targets Sheet 1 and reads rows automatically
+        // Google Visualization API Target Link
         const JSON_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json`;
 
         window.onload = function() {
-            loadArticlesFromSheets();
+            loadTableFromSheets();
         };
 
-        function loadArticlesFromSheets() {
+        function loadTableFromSheets() {
             fetch(JSON_URL)
                 .then(response => response.text())
                 .then(data => {
-                    // Clean up Google's secure wrapper format to parse clean JSON array
+                    // Extract clean JSON from Google wrapper
                     const pureJson = JSON.parse(data.substr(47).slice(0, -2));
                     const rows = pureJson.table.rows;
-                    const feedContainer = document.getElementById('liveNewsFeed');
+                    const tableBody = document.getElementById('liveNewsTableBody');
                     
                     if (!rows || rows.length === 0) {
-                        feedContainer.innerHTML = "<p class='loading-status'>No articles found in the spreadsheet database.</p>";
+                        tableBody.innerHTML = "<tr><td colspan='4' class='loading-status'>No database rows found.</td></tr>";
                         return;
                     }
 
-                    // Clear loading text
-                    feedContainer.innerHTML = "";
+                    // Reset table contents
+                    tableBody.innerHTML = "";
 
-                    // Loop through database rows backwards to keep newest entries on top
+                    // Read backward loop (Newest rows appear first)
                     for (let i = rows.length - 1; i >= 0; i--) {
                         const cells = rows[i].c;
                         
-                        // Extract spreadsheet column metrics safely
+                        // Parse safely out of Google data architecture
                         const category = cells[0] ? cells[0].v : "General";
                         const title = cells[1] ? cells[1].v : "";
                         const sub = cells[2] ? cells[2].v : "";
                         const mediaUrl = cells[3] ? cells[3].v : "";
 
-                        if(!title) continue; // Skip blank rows
+                        if(!title || title === "title") continue; // Ignore empty/header rows
 
-                        // Check if media cell holds a video asset or a picture url
-                        let mediaMarkup = '';
-                        if(mediaUrl) {
+                        // Smart media handler for thumbnails
+                        let mediaElement = `<span style="color:#444; font-size:11px;">No Media</span>`;
+                        if(mediaUrl && !mediaUrl.startsWith('(')) {
                             if(mediaUrl.toLowerCase().endsWith('.mp4') || mediaUrl.includes('video')) {
-                                mediaMarkup = `<div class="media-container"><video src="${mediaUrl}" controls class="featured-video"></video></div>`;
+                                mediaElement = `<video src="${mediaUrl}" class="table-thumb" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`;
                             } else {
-                                mediaMarkup = `<div class="media-container"><img src="${mediaUrl}" class="featured-image"></div>`;
+                                mediaElement = `<img src="${mediaUrl}" class="table-thumb" alt="Preview">`;
                             }
                         }
 
-                        // Assemble structural post framework card
-                        const postHtml = `
-                            <article>
-                                <span class="section-label">${category}</span>
-                                <h1 class="main-headline">${title}</h1>
-                                <p class="sub-headline">${sub}</p>
-                                <p class="byline">Published via Cloud Feed Engine</p>
-                                ${mediaMarkup}
-                            </article>
-                            <hr>
+                        // Generate Table Row Template literal
+                        const rowHtml = `
+                            <tr>
+                                <td>${mediaElement}</td>
+                                <td><span class="table-badge">${category}</span></td>
+                                <td style="font-family: 'Lora', serif; font-weight: 700; font-size: 16px; color: #ffffff;">${title}</td>
+                                <td style="color: #aaaaaa; font-size: 13px;">${sub}</td>
+                            </tr>
                         `;
                         
-                        feedContainer.innerHTML += postHtml;
+                        tableBody.innerHTML += rowHtml;
                     }
                 })
                 .catch(error => {
                     console.error("Database connection failure:", error);
-                    document.getElementById('loadingText').innerText = "Database connection offline. Verify spreadsheet publishing status.";
+                    const loadingText = document.getElementById('loadingText');
+                    if(loadingText) {
+                        loadingText.innerText = "Database connection offline. Verify your Spreadsheet Share settings to 'Anyone with link'.";
+                    }
                 });
         }
     </script>
