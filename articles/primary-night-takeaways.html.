@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primary night takeaways: Trump demonstrates his power over GOP - Ngetich Post</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400&family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #121212; color: #ffffff; font-family: 'Chivo', sans-serif; line-height: 1.6; }
+        
+        header { border-bottom: 1px solid #2d2d2d; padding: 15px; text-align: center; background: #121212; position: sticky; top: 0; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 24px; color: white; text-decoration: none; font-weight: 700; }
+        
+        main { max-width: 650px; margin: 0 auto; padding: 24px 16px; }
+        .category { color: #116efc; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+        h1 { font-family: 'Lora', serif; font-size: 32px; line-height: 1.2; margin-bottom: 12px; font-weight: 700; }
+        .subheadline { font-size: 18px; color: #aaaaaa; margin-bottom: 16px; line-height: 1.4; }
+        .meta { font-size: 13px; color: #888888; margin-bottom: 24px; border-bottom: 1px solid #2d2d2d; padding-bottom: 16px; }
+        
+        .featured-img { width: 100%; height: auto; border-radius: 4px; margin-bottom: 8px; }
+        .caption { font-size: 13px; color: #aaaaaa; margin-bottom: 24px; line-height: 1.4; }
+        
+        .article-body { font-family: 'Lora', serif; font-size: 18px; color: #e0e0e0; }
+        .article-body p { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="../index.html" class="logo">The Ngetich Post</a>
+    </header>
+
+    <main>
+        <span class="category">Politics</span>
+        <h1>Primary night takeaways: Trump demonstrates his power over GOP</h1>
+        <p class="subheadline">The president’s favorites swept Republican foes in Georgia, Pennsylvania and Kentucky.</p>
+        
+        <div class="meta">
+            <p>By <strong>Hannah Knowles</strong>, <strong>Dan Merica</strong> and <strong>Patrick Marley</strong></p>
+            <p style="margin-top: 4px;">Updated May 20, 2026</p>
+        </div>
+
+        <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800" alt="Politics Graphic" class="featured-img">
+        <p class="caption">Rep. Thomas Massie (R-Kentucky), left, lost to Ed Gallrein. (AFP/Getty Images)</p>
+
+        <div class="article-body">
+            <p>WASHINGTON—The primary elections solidified dramatic shifts within the party framework as voters turned out in key states to decide pivotal congressional and gubernatorial matchups.</p>
+            <p>In Georgia and Pennsylvania, high-profile endorsements carried substantial weight, signaling an aggressive push toward the upcoming general elections. Strategists are already analyzing how these margins will impact voter turnout moving into November.</p>
+        </div>
+    </main>
+
+</body>
+</html>
