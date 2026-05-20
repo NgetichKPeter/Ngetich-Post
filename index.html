@@ -126,8 +126,8 @@
     </main>
 
     <script>
-        // Your live Google Spreadsheet Database ID
-        const SPREADSHEET_ID = "1JhqEInJIVrBX074NooN8ROcTQIdOhWfb-rhPbqbTk0U";
+        // Connected to your live Google Spreadsheet Database:
+        const SPREADSHEET_ID = "1MN61ccbioOtrzAYsIqmAKFo_pdXizwqd-l0h1JGCLiQ";
         
         // Google Visualization API Target Link
         const JSON_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json`;
@@ -153,7 +153,7 @@
                     // Reset table contents
                     tableBody.innerHTML = "";
 
-                    // Read backward loop (Newest database rows listed first)
+                    // Read backward loop (Newest rows appear first)
                     for (let i = rows.length - 1; i >= 0; i--) {
                         const cells = rows[i].c;
                         
@@ -163,7 +163,7 @@
                         const sub = cells[2] ? cells[2].v : "";
                         const mediaUrl = cells[3] ? cells[3].v : "";
 
-                        if(!title || title === "title") continue; // Ignore empty rows or header duplicate clones
+                        if(!title || title === "title") continue; // Ignore empty rows or header clones
 
                         // Smart media handler for thumbnails
                         let mediaElement = `<span style="color:#444; font-size:11px;">No Media</span>`;
