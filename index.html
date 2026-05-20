@@ -153,7 +153,7 @@
                     // Reset table contents
                     tableBody.innerHTML = "";
 
-                    // Read backward loop (Newest rows appear first)
+                    // Read backward loop (Newest database rows listed first)
                     for (let i = rows.length - 1; i >= 0; i--) {
                         const cells = rows[i].c;
                         
@@ -163,7 +163,7 @@
                         const sub = cells[2] ? cells[2].v : "";
                         const mediaUrl = cells[3] ? cells[3].v : "";
 
-                        if(!title || title === "title") continue; // Ignore empty/header rows
+                        if(!title || title === "title") continue; // Ignore empty rows or header duplicate clones
 
                         // Smart media handler for thumbnails
                         let mediaElement = `<span style="color:#444; font-size:11px;">No Media</span>`;
@@ -175,7 +175,7 @@
                             }
                         }
 
-                        // Generate Table Row Template literal
+                        // Generate Table Row HTML template literal
                         const rowHtml = `
                             <tr>
                                 <td>${mediaElement}</td>
