@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngetich Post - Secure Author Edition</title>
+    <title>Ngetich Post - Live Database Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
@@ -12,18 +12,17 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #121212; color: #ffffff; font-family: 'Chivo', sans-serif; overflow-x: hidden; }
 
-        /* Header UI */
         header { background-color: #121212; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #2d2d2d; padding: 12px 16px; }
         .nav-top { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
         .logo { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; text-decoration: none; color: white; }
-        .admin-btn { background: none; border: 1px solid #333; color: #666; padding: 6px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; }
 
         .nav-sub { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 10px 16px; border-bottom: 1px solid #2d2d2d; font-size: 14px; }
         .nav-sub a { color: #aaaaaa; text-decoration: none; }
         .nav-sub a.ai-option { color: #116efc; font-weight: 700; }
 
-        /* Main layout */
         main { max-width: 800px; margin: 0 auto; padding: 24px 16px; }
+        
+        /* News UI Layout Cards */
         .section-label { color: #116efc; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
         .main-headline { font-family: 'Lora', serif; font-size: 32px; line-height: 1.15; font-weight: 700; margin-bottom: 12px; }
         .sub-headline { font-size: 15px; color: #aaaaaa; line-height: 1.4; margin-bottom: 12px; }
@@ -33,16 +32,7 @@
         .featured-image, .featured-video { width: 100%; height: auto; display: block; }
         hr { border: 0; height: 1px; background: #2d2d2d; margin: 24px 0; }
 
-        /* SECURE CMS DRAWER */
-        .cms-panel { display: none; background-color: #1a1a1a; border: 2px solid #34c759; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
-        .cms-panel.active { display: block; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 4px; font-weight: 700; }
-        .form-control { width: 100%; padding: 10px; background-color: #121212; border: 1px solid #333; color: white; border-radius: 4px; }
-        .btn-submit { background-color: #34c759; color: white; border: none; padding: 12px; border-radius: 4px; font-weight: 700; width: 100%; margin-top: 10px; cursor: pointer; }
-        
-        /* Code Output Box */
-        .output-box { display: none; background-color: #000; padding: 15px; border-radius: 4px; border: 1px dashed #34c759; margin-top: 15px; font-family: monospace; font-size: 12px; color: #34c759; white-space: pre-wrap; word-break: break-all; }
+        .loading-status { text-align: center; color: #666; font-size: 14px; padding: 40px 0; font-style: italic; }
     </style>
 </head>
 <body>
@@ -50,268 +40,89 @@
     <header>
         <div class="nav-top">
             <a href="#" class="logo">The Ngetich Post</a>
-            <button class="admin-btn" onclick="accessAuthorStudio()">Author LogIn</button>
         </div>
     </header>
 
     <div class="nav-sub">
         <a href="#" class="active">Top Stories</a>
-        <a style="color: #116efc; font-weight: 700;">Ngetich AI</a>
+        <a class="ai-option">Ngetich AI Active</a>
     </div>
 
     <main>
-        <div class="cms-panel" id="cmsPanel">
-            <h3 style="color:#34c759; margin-bottom:15px;">✍️ Ngetich Author Studio</h3>
-            <div class="form-group">
-                <label>Category Tag</label>
-                <input type="text" id="postCategory" class="form-control" placeholder="Politics, Tech, Sports...">
-            </div>
-            <div class="form-group">
-                <label>Headline Title</label>
-                <input type="text" id="postTitle" class="form-control" placeholder="Headline...">
-            </div>
-            <div class="form-group">
-                <label>Summary / Sub-headline</label>
-                <input type="text" id="postSub" class="form-control" placeholder="Summary info...">
-            </div>
-            <div class="form-group">
-                <label>Media Asset Link (Photo or MP4 Video Link)</label>
-                <input type="text" id="postMedia" class="form-control" placeholder="Paste image or video .mp4 URL...">
-            </div>
-            <button class="btn-submit" onclick="generatePostCode()">Generate Post HTML</button>
-            
-            <div class="output-box" id="outputBox"></div>
-        </div>
-
         <div id="liveNewsFeed">
-
-            <article>
-                <span class="section-label" style="color:#af52de;">Technology</span>
-                <h1 class="main-headline">Generative AI consolidation shifts modern newsrooms framework</h1>
-                <p class="sub-headline">Publishers report accelerated investment in back-end content management automation systems.</p>
-                <p class="byline">By Taylor Lorenz</p>
-            </article>
-
-            <hr>
-
-            <article>
-                <span class="section-label" style="color:#ff3b30;">Politics • Live</span>
-                <h1 class="main-headline">Primary night takeaways: Trump demonstrates his power over GOP</h1>
-                <p class="sub-headline">The president’s favorites swept key Republican choices across targeted primary states.</p>
-                <p class="byline">By Hannah Knowles</p>
-                <div class="media-container">
-                    <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800" class="featured-image">
-                </div>
-            </article>
-
+            <p class="loading-status" id="loadingText">Connecting to cloud sheet database...</p>
         </div>
     </main>
 
     <script>
-        // Set your own secret password here!
-        const SECRET_PASSWORD = "ngetichadmin"; 
-
-        function accessAuthorStudio() {
-            let passwordInput = prompt("Enter Secret Author Password:");
-            if (passwordInput === SECRET_PASSWORD) {
-                document.getElementById('cmsPanel').classList.add('active');
-                alert("Access Granted. Welcome back, Editor.");
-            } else {
-                alert("Incorrect Password. Access Denied.");
-            }
-        }
-
-        function generatePostCode() {
-            const category = document.getElementById('postCategory').value || "General";
-            const title = document.getElementById('postTitle').value;
-            const sub = document.getElementById('postSub').value;
-            const mediaUrl = document.getElementById('postMedia').value;
-
-            if(!title) { alert("Headline required"); return; }
-
-            let mediaHTML = '';
-            if(mediaUrl) {
-                if(mediaUrl.toLowerCase().endsWith('.mp4') || mediaUrl.includes('video')) {
-                    mediaHTML = `<div class="media-container"><video src="${mediaUrl}" controls class="featured-video"></video></div>`;
-                } else {
-                    mediaHTML = `<div class="media-container"><img src="${mediaUrl}" class="featured-image"></div>`;
-                }
-            }
-
-            // Generate precise structural snippet
-            const codeSnippet = `
-            <article>
-                <span class="section-label">${category}</span>
-                <h1 class="main-headline">${title}</h1>
-                <p class="sub-headline">${sub}</p>
-                <p class="byline">Published by Author</p>
-                ${mediaHTML}
-            </article>
-            <hr>
-            `;
-
-            const outputBox = document.getElementById('outputBox');
-            outputBox.innerText = "👉 COPY THIS CODE BLOCK, GO TO GITHUB, AND PASTE IT INSIDE 'liveNewsFeed':\n\n" + codeSnippet;
-            outputBox.style.display = "block";
-        }
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ngetich Post - Secure Author Edition</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
-    
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: #121212; color: #ffffff; font-family: 'Chivo', sans-serif; overflow-x: hidden; }
-
-        /* Header UI */
-        header { background-color: #121212; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #2d2d2d; padding: 12px 16px; }
-        .nav-top { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; text-decoration: none; color: white; }
-        .admin-btn { background: none; border: 1px solid #333; color: #666; padding: 6px 12px; border-radius: 20px; font-size: 12px; cursor: pointer; }
-
-        .nav-sub { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 10px 16px; border-bottom: 1px solid #2d2d2d; font-size: 14px; }
-        .nav-sub a { color: #aaaaaa; text-decoration: none; }
-        .nav-sub a.ai-option { color: #116efc; font-weight: 700; }
-
-        /* Main layout */
-        main { max-width: 800px; margin: 0 auto; padding: 24px 16px; }
-        .section-label { color: #116efc; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: block; }
-        .main-headline { font-family: 'Lora', serif; font-size: 32px; line-height: 1.15; font-weight: 700; margin-bottom: 12px; }
-        .sub-headline { font-size: 15px; color: #aaaaaa; line-height: 1.4; margin-bottom: 12px; }
-        .byline { font-size: 12px; color: #777777; margin-bottom: 16px; }
+        // ⚠️ CRITICAL SETUP: Replace the string below with your real Spreadsheet ID from Step 2
+        const SPREADSHEET_ID = "YOUR_SPREADSHEET_ID_HERE";
         
-        .media-container { margin-bottom: 16px; background-color: #1a1a1a; border-radius: 4px; overflow: hidden; }
-        .featured-image, .featured-video { width: 100%; height: auto; display: block; }
-        hr { border: 0; height: 1px; background: #2d2d2d; margin: 24px 0; }
+        // This targets Sheet 1 and reads rows automatically
+        const JSON_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:json`;
 
-        /* SECURE CMS DRAWER */
-        .cms-panel { display: none; background-color: #1a1a1a; border: 2px solid #34c759; border-radius: 8px; padding: 20px; margin-bottom: 24px; }
-        .cms-panel.active { display: block; }
-        .form-group { margin-bottom: 12px; }
-        .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 4px; font-weight: 700; }
-        .form-control { width: 100%; padding: 10px; background-color: #121212; border: 1px solid #333; color: white; border-radius: 4px; }
-        .btn-submit { background-color: #34c759; color: white; border: none; padding: 12px; border-radius: 4px; font-weight: 700; width: 100%; margin-top: 10px; cursor: pointer; }
-        
-        /* Code Output Box */
-        .output-box { display: none; background-color: #000; padding: 15px; border-radius: 4px; border: 1px dashed #34c759; margin-top: 15px; font-family: monospace; font-size: 12px; color: #34c759; white-space: pre-wrap; word-break: break-all; }
-    </style>
-</head>
-<body>
+        window.onload = function() {
+            loadArticlesFromSheets();
+        };
 
-    <header>
-        <div class="nav-top">
-            <a href="#" class="logo">The Ngetich Post</a>
-            <button class="admin-btn" onclick="accessAuthorStudio()">Author LogIn</button>
-        </div>
-    </header>
+        function loadArticlesFromSheets() {
+            fetch(JSON_URL)
+                .then(response => response.text())
+                .then(data => {
+                    // Clean up Google's secure wrapper format to parse clean JSON array
+                    const pureJson = JSON.parse(data.substr(47).slice(0, -2));
+                    const rows = pureJson.table.rows;
+                    const feedContainer = document.getElementById('liveNewsFeed');
+                    
+                    if (!rows || rows.length === 0) {
+                        feedContainer.innerHTML = "<p class='loading-status'>No articles found in the spreadsheet database.</p>";
+                        return;
+                    }
 
-    <div class="nav-sub">
-        <a href="#" class="active">Top Stories</a>
-        <a style="color: #116efc; font-weight: 700;">Ngetich AI</a>
-    </div>
+                    // Clear loading text
+                    feedContainer.innerHTML = "";
 
-    <main>
-        <div class="cms-panel" id="cmsPanel">
-            <h3 style="color:#34c759; margin-bottom:15px;">✍️ Ngetich Author Studio</h3>
-            <div class="form-group">
-                <label>Category Tag</label>
-                <input type="text" id="postCategory" class="form-control" placeholder="Politics, Tech, Sports...">
-            </div>
-            <div class="form-group">
-                <label>Headline Title</label>
-                <input type="text" id="postTitle" class="form-control" placeholder="Headline...">
-            </div>
-            <div class="form-group">
-                <label>Summary / Sub-headline</label>
-                <input type="text" id="postSub" class="form-control" placeholder="Summary info...">
-            </div>
-            <div class="form-group">
-                <label>Media Asset Link (Photo or MP4 Video Link)</label>
-                <input type="text" id="postMedia" class="form-control" placeholder="Paste image or video .mp4 URL...">
-            </div>
-            <button class="btn-submit" onclick="generatePostCode()">Generate Post HTML</button>
-            
-            <div class="output-box" id="outputBox"></div>
-        </div>
+                    // Loop through database rows backwards to keep newest entries on top
+                    for (let i = rows.length - 1; i >= 0; i--) {
+                        const cells = rows[i].c;
+                        
+                        // Extract spreadsheet column metrics safely
+                        const category = cells[0] ? cells[0].v : "General";
+                        const title = cells[1] ? cells[1].v : "";
+                        const sub = cells[2] ? cells[2].v : "";
+                        const mediaUrl = cells[3] ? cells[3].v : "";
 
-        <div id="liveNewsFeed">
+                        if(!title) continue; // Skip blank rows
 
-            <article>
-                <span class="section-label" style="color:#af52de;">Technology</span>
-                <h1 class="main-headline">Generative AI consolidation shifts modern newsrooms framework</h1>
-                <p class="sub-headline">Publishers report accelerated investment in back-end content management automation systems.</p>
-                <p class="byline">By Taylor Lorenz</p>
-            </article>
+                        // Check if media cell holds a video asset or a picture url
+                        let mediaMarkup = '';
+                        if(mediaUrl) {
+                            if(mediaUrl.toLowerCase().endsWith('.mp4') || mediaUrl.includes('video')) {
+                                mediaMarkup = `<div class="media-container"><video src="${mediaUrl}" controls class="featured-video"></video></div>`;
+                            } else {
+                                mediaMarkup = `<div class="media-container"><img src="${mediaUrl}" class="featured-image"></div>`;
+                            }
+                        }
 
-            <hr>
-
-            <article>
-                <span class="section-label" style="color:#ff3b30;">Politics • Live</span>
-                <h1 class="main-headline">Primary night takeaways: Trump demonstrates his power over GOP</h1>
-                <p class="sub-headline">The president’s favorites swept key Republican choices across targeted primary states.</p>
-                <p class="byline">By Hannah Knowles</p>
-                <div class="media-container">
-                    <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800" class="featured-image">
-                </div>
-            </article>
-
-        </div>
-    </main>
-
-    <script>
-        // Set your own secret password here!
-        const SECRET_PASSWORD = "ngetichadmin"; 
-
-        function accessAuthorStudio() {
-            let passwordInput = prompt("Enter Secret Author Password:");
-            if (passwordInput === SECRET_PASSWORD) {
-                document.getElementById('cmsPanel').classList.add('active');
-                alert("Access Granted. Welcome back, Editor.");
-            } else {
-                alert("Incorrect Password. Access Denied.");
-            }
-        }
-
-        function generatePostCode() {
-            const category = document.getElementById('postCategory').value || "General";
-            const title = document.getElementById('postTitle').value;
-            const sub = document.getElementById('postSub').value;
-            const mediaUrl = document.getElementById('postMedia').value;
-
-            if(!title) { alert("Headline required"); return; }
-
-            let mediaHTML = '';
-            if(mediaUrl) {
-                if(mediaUrl.toLowerCase().endsWith('.mp4') || mediaUrl.includes('video')) {
-                    mediaHTML = `<div class="media-container"><video src="${mediaUrl}" controls class="featured-video"></video></div>`;
-                } else {
-                    mediaHTML = `<div class="media-container"><img src="${mediaUrl}" class="featured-image"></div>`;
-                }
-            }
-
-            // Generate precise structural snippet
-            const codeSnippet = `
-            <article>
-                <span class="section-label">${category}</span>
-                <h1 class="main-headline">${title}</h1>
-                <p class="sub-headline">${sub}</p>
-                <p class="byline">Published by Author</p>
-                ${mediaHTML}
-            </article>
-            <hr>
-            `;
-
-            const outputBox = document.getElementById('outputBox');
-            outputBox.innerText = "👉 COPY THIS CODE BLOCK, GO TO GITHUB, AND PASTE IT INSIDE 'liveNewsFeed':\n\n" + codeSnippet;
-            outputBox.style.display = "block";
+                        // Assemble structural post framework card
+                        const postHtml = `
+                            <article>
+                                <span class="section-label">${category}</span>
+                                <h1 class="main-headline">${title}</h1>
+                                <p class="sub-headline">${sub}</p>
+                                <p class="byline">Published via Cloud Feed Engine</p>
+                                ${mediaMarkup}
+                            </article>
+                            <hr>
+                        `;
+                        
+                        feedContainer.innerHTML += postHtml;
+                    }
+                })
+                .catch(error => {
+                    console.error("Database connection failure:", error);
+                    document.getElementById('loadingText').innerText = "Database connection offline. Verify spreadsheet publishing status.";
+                });
         }
     </script>
 </body>
