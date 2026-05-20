@@ -12,25 +12,22 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #121212; color: #ffffff; font-family: 'Chivo', sans-serif; overflow-x: hidden; }
 
-        /* Top Header Navbar */
+        /* Navigation Layout */
         header { background-color: #121212; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #2d2d2d; padding: 12px 16px; }
         .nav-top { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
         .nav-left, .nav-right { display: flex; align-items: center; gap: 15px; }
         .menu-btn { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
         .search-icon { color: #aaaaaa; font-size: 18px; }
-        .logo { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; text-decoration: none; color: white; text-align: center; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; text-decoration: none; color: white; }
         .sign-in-btn { color: white; text-decoration: none; font-weight: 700; font-size: 14px; }
 
-        /* Sub-navigation / Trending bar */
         .nav-sub { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 10px 16px; overflow-x: auto; white-space: nowrap; border-bottom: 1px solid #2d2d2d; font-size: 14px; -webkit-overflow-scrolling: touch; }
-        .nav-sub::-webkit-scrollbar { display: none; } /* Hides scrollbar on mobile for clean look */
-        .nav-sub a { color: #aaaaaa; text-decoration: none; font-weight: 400; }
+        .nav-sub::-webkit-scrollbar { display: none; }
+        .nav-sub a { color: #aaaaaa; text-decoration: none; font-weight: 400; cursor: pointer; }
         .nav-sub a.active { color: white; font-weight: 700; border-bottom: 2px solid white; padding-bottom: 4px; }
-        
-        /* The requested Ngetich AI styling */
         .nav-sub a.ai-option { color: #116efc; font-weight: 700; }
 
-        /* Sidebar Navigation Menu */
+        /* Sidebar Drawer */
         .sidebar { position: fixed; top: 0; left: -320px; width: 300px; height: 100%; background-color: #0f0f0f; z-index: 200; transition: 0.3s ease-in-out; box-shadow: 5px 0 15px rgba(0,0,0,0.5); padding: 20px; overflow-y: auto; }
         .sidebar.open { left: 0; }
         .sidebar-close { background: none; border: none; color: white; font-size: 24px; float: right; cursor: pointer; margin-bottom: 20px; }
@@ -38,28 +35,49 @@
         .sidebar-search { width: 100%; padding: 12px; background-color: #1e1e1e; border: 1px solid #333; color: white; border-radius: 4px; margin-bottom: 20px; font-size: 16px; }
         .sidebar-menu-items a { display: block; color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 700; padding: 12px 0; border-bottom: 1px solid #1e1e1e; }
         
-        /* Overlay when sidebar is open */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 150; }
         .overlay.active { display: block; }
 
         /* Main Content Layout */
         main { max-width: 800px; margin: 0 auto; padding: 24px 16px; }
         .main-headline { font-family: 'Lora', serif; font-size: 32px; line-height: 1.15; font-weight: 700; margin-bottom: 12px; }
+        .main-headline a { color: white; text-decoration: none; }
         .sub-headline { font-size: 16px; color: #aaaaaa; line-height: 1.4; margin-bottom: 16px; }
         .byline { font-size: 13px; color: #888888; margin-bottom: 20px; }
-        
-        /* Image Display */
         .featured-image-container { margin-bottom: 24px; }
         .featured-image { width: 100%; height: auto; display: block; border-radius: 4px; }
         .image-caption { font-size: 13px; color: #aaaaaa; margin-top: 8px; line-height: 1.4; }
         hr { border: 0; height: 1px; background: #2d2d2d; margin: 30px 0; }
+
+        /* --- NGETICH AI BOTTOM DRAWER PANEL --- */
+        .ai-panel { position: fixed; bottom: -100%; left: 0; width: 100%; height: 80%; background-color: #0f0f0f; z-index: 250; border-top: 2px solid #116efc; border-top-left-radius: 16px; border-top-right-radius: 16px; transition: 0.4s ease-out; display: flex; flex-direction: column; }
+        .ai-panel.open { bottom: 0; }
+        .ai-header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid #2d2d2d; }
+        .ai-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: #116efc; }
+        .ai-close { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+        
+        /* Chat Content Box */
+        .ai-content { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; font-size: 15px; }
+        .chat-bubble { padding: 12px 16px; border-radius: 12px; max-width: 85%; line-height: 1.4; }
+        .chat-user { background-color: #2b2b2b; align-self: flex-end; color: white; }
+        .chat-ai { background-color: #1a263b; border: 1px solid #116efc; align-self: flex-start; color: #e0e8ff; }
+        
+        /* Suggested Prompts Area */
+        .ai-suggestions { padding: 10px 16px; display: flex; gap: 10px; overflow-x: auto; white-space: nowrap; }
+        .ai-suggestions::-webkit-scrollbar { display: none; }
+        .suggest-btn { background-color: #1e1e1e; border: 1px solid #333; color: #ccc; padding: 8px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; }
+
+        /* Input Controls */
+        .ai-input-container { padding: 16px; border-top: 1px solid #2d2d2d; display: flex; gap: 10px; background-color: #0f0f0f; }
+        .ai-input { flex: 1; padding: 12px; background-color: #1e1e1e; border: 1px solid #333; color: white; border-radius: 24px; font-size: 15px; outline: none; }
+        .ai-send { background-color: #116efc; border: none; color: white; padding: 0 18px; border-radius: 24px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div class="overlay" id="overlay" onclick="closeAllMenus()"></div>
     <nav class="sidebar" id="sidebar">
-        <button class="sidebar-close" onclick="toggleMenu()">✕</button>
+        <button class="sidebar-close" onclick="closeAllMenus()">✕</button>
         <a href="#" class="subscribe-box">Save and subscribe</a>
         <input type="text" class="sidebar-search" placeholder="Ask a question or search">
         <div class="sidebar-menu-items">
@@ -89,12 +107,14 @@
         <a href="#" class="active">Top Stories</a>
         <a href="#">Latest</a>
         <a href="#">For You</a>
-        <a href="#" class="ai-option">Ask Ngetich AI</a>
+        <a onclick="openAiPanel()" class="ai-option">Ask Ngetich AI</a>
     </div>
 
     <main>
         <article>
-            <h1 class="main-headline">Primary night takeaways: Trump demonstrates his power over GOP</h1>
+            <h1 class="main-headline">
+                <a href="articles/primary-night-takeaways.html">Primary night takeaways: Trump demonstrates his power over GOP</a>
+            </h1>
             <p class="sub-headline">The president’s favorites swept Republican foes in Georgia, Pennsylvania and Kentucky.</p>
             <p class="byline">By Hannah Knowles, Dan Merica and Patrick Marley</p>
             
@@ -103,23 +123,99 @@
                 <p class="image-caption">Rep. Thomas Massie (R-Kentucky), left, lost to Ed Gallrein. (AFP/Getty Images)</p>
             </div>
         </article>
-
         <hr>
-
         <article>
             <h2 class="main-headline" style="font-size: 26px;">Legal deal ending IRS audits of Trump</h2>
         </article>
     </main>
 
+    <div class="ai-panel" id="aiPanel">
+        <div class="ai-header">
+            <div class="ai-title">✨ Ngetich AI Assistant</div>
+            <button class="ai-close" onclick="closeAiPanel()">✕</button>
+        </div>
+        
+        <div class="ai-content" id="chatContent">
+            <div class="chat-bubble chat-ai">
+                Hello! I am <strong>Ngetich AI</strong>. Ask me any context breakdown regarding tonight's breaking coverage or upcoming policy debates.
+            </div>
+        </div>
+
+        <div class="ai-suggestions">
+            <button class="suggest-btn" onclick="sendSuggestion('Summarize tonight\'s GOP primary results')">Summarize GOP primary results</button>
+            <button class="suggest-btn" onclick="sendSuggestion('What happened with the IRS audit deal?')">Explain the IRS audit deal</button>
+        </div>
+
+        <div class="ai-input-container">
+            <input type="text" id="aiInputField" class="ai-input" placeholder="Ask a question about the news...">
+            <button class="ai-send" onclick="handleUserMessage()">Send</button>
+        </div>
+    </div>
+
     <script>
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const aiPanel = document.getElementById('aiPanel');
+        const chatContent = document.getElementById('chatContent');
+        const aiInputField = document.getElementById('aiInputField');
+
         function toggleMenu() {
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('overlay');
             sidebar.classList.toggle('open');
             overlay.classList.toggle('active');
         }
-    </script>
-<h1 class="main-headline">Primary night takeaways: Trump demonstrates his power over GOP</h1>
 
+        function openAiPanel() {
+            aiPanel.classList.add('open');
+            overlay.classList.add('active');
+        }
+
+        function closeAiPanel() {
+            aiPanel.classList.remove('open');
+            if(!sidebar.classList.contains('open')) {
+                overlay.classList.remove('active');
+            }
+        }
+
+        function closeAllMenus() {
+            sidebar.classList.remove('open');
+            aiPanel.classList.remove('remove');
+            aiPanel.classList.remove('open');
+            overlay.classList.remove('active');
+        }
+
+        function appendMessage(text, className) {
+            const bubble = document.createElement('div');
+            bubble.className = `chat-bubble ${className}`;
+            bubble.innerHTML = text;
+            chatContent.appendChild(bubble);
+            chatContent.scrollTop = chatContent.scrollHeight;
+        }
+
+        function handleUserMessage() {
+            const query = aiInputField.value.trim();
+            if(!query) return;
+            
+            appendMessage(query, 'chat-user');
+            aiInputField.value = '';
+
+            // Simulated Quick AI Response engine based on home content
+            setTimeout(() => {
+                let aiResponse = "I'm tracking the current updates on Ngetich Post. I don't have further internal details on that specific query yet, but I will stream live details as the newsroom files updates.";
+                
+                if(query.toLowerCase().includes('gop') || query.toLowerCase().includes('primary')) {
+                    aiResponse = "<strong>Ngetich AI Analysis:</strong> Tonight's primary sweeps show that endorsed GOP choices maintained firm control over critical regions in Georgia, Pennsylvania, and Kentucky, giving them high structural momentum heading directly into general elections.";
+                } else if (query.toLowerCase().includes('irs') || query.toLowerCase().includes('audit')) {
+                    aiResponse = "<strong>Ngetich AI Brief:</strong> The newly developed legal agreement structures an official end to the historic IRS audits concerning former President Trump, closing out a lengthy compliance dispute process.";
+                }
+
+                appendMessage(aiResponse, 'chat-ai');
+            }, 800);
+        }
+
+        function sendSuggestion(text) {
+            aiInputField.value = text;
+            handleUserMessage();
+        }
+    </script>
 </body>
 </html>
