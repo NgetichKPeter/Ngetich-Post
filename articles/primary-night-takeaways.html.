@@ -11,7 +11,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: #121212; color: #ffffff; font-family: 'Chivo', sans-serif; line-height: 1.6; }
         
-        header { border-bottom: 1px solid #2d2d2d; padding: 15px; text-align: center; background: #121212; position: sticky; top: 0; }
+        header { border-bottom: 1px solid #2d2d2d; padding: 15px; text-align: center; background: #121212; position: sticky; top: 0; z-index: 100; }
         .logo { font-family: 'Playfair Display', serif; font-size: 24px; color: white; text-decoration: none; font-weight: 700; }
         
         main { max-width: 650px; margin: 0 auto; padding: 24px 16px; }
@@ -23,8 +23,12 @@
         .featured-img { width: 100%; height: auto; border-radius: 4px; margin-bottom: 8px; }
         .caption { font-size: 13px; color: #aaaaaa; margin-bottom: 24px; line-height: 1.4; }
         
-        .article-body { font-family: 'Lora', serif; font-size: 18px; color: #e0e0e0; }
+        .article-body { font-family: 'Lora', serif; font-size: 18px; color: #e0e0e0; margin-bottom: 40px; }
         .article-body p { margin-bottom: 20px; }
+
+        /* Comments Section Styling */
+        .comments-section { border-top: 2px solid #2d2d2d; padding-top: 30px; margin-top: 40px; }
+        .comments-title { font-family: 'Playfair Display', serif; font-size: 22px; margin-bottom: 20px; color: white; }
     </style>
 </head>
 <body>
@@ -50,7 +54,29 @@
             <p>WASHINGTON—The primary elections solidified dramatic shifts within the party framework as voters turned out in key states to decide pivotal congressional and gubernatorial matchups.</p>
             <p>In Georgia and Pennsylvania, high-profile endorsements carried substantial weight, signaling an aggressive push toward the upcoming general elections. Strategists are already analyzing how these margins will impact voter turnout moving into November.</p>
         </div>
+
+        <section class="comments-section">
+            <h3 class="comments-title">Discussion & Comments</h3>
+            
+            <div id="disqus_thread"></div>
+        </section>
     </main>
+
+    <script>
+        var disqus_config = function () {
+            this.page.url = window.location.href;  // Automatically links the discussion to this exact webpage URL
+            this.page.identifier = 'primary-night-takeaways'; // Unique ID for this specific news story
+        };
+
+        (function() { 
+            var d = document, s = d.createElement('script');
+            // WARNING: Replace 'ngetich-post' with your personal Disqus shortname once you create your account
+            s.src = 'https://ngetich-post.disqus.com/embed.js'; 
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 
 </body>
 </html>
