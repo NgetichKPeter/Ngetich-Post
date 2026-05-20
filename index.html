@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ngetich Post - Breaking News</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chivo:wght@300;400;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #121212; color: #ffffff; font-family: 'Chivo', sans-serif; overflow-x: hidden; }
+
+        /* Top Header Navbar */
+        header { background-color: #121212; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #2d2d2d; padding: 12px 16px; }
+        .nav-top { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .nav-left, .nav-right { display: flex; align-items: center; gap: 15px; }
+        .menu-btn { background: none; border: none; color: white; font-size: 24px; cursor: pointer; }
+        .search-icon { color: #aaaaaa; font-size: 18px; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; text-decoration: none; color: white; text-align: center; }
+        .sign-in-btn { color: white; text-decoration: none; font-weight: 700; font-size: 14px; }
+
+        /* Sub-navigation / Trending bar */
+        .nav-sub { display: flex; gap: 20px; max-width: 1200px; margin: 0 auto; padding: 10px 16px; overflow-x: auto; white-space: nowrap; border-bottom: 1px solid #2d2d2d; font-size: 14px; -webkit-overflow-scrolling: touch; }
+        .nav-sub::-webkit-scrollbar { display: none; } /* Hides scrollbar on mobile for clean look */
+        .nav-sub a { color: #aaaaaa; text-decoration: none; font-weight: 400; }
+        .nav-sub a.active { color: white; font-weight: 700; border-bottom: 2px solid white; padding-bottom: 4px; }
+        
+        /* The requested Ngetich AI styling */
+        .nav-sub a.ai-option { color: #116efc; font-weight: 700; }
+
+        /* Sidebar Navigation Menu */
+        .sidebar { position: fixed; top: 0; left: -320px; width: 300px; height: 100%; background-color: #0f0f0f; z-index: 200; transition: 0.3s ease-in-out; box-shadow: 5px 0 15px rgba(0,0,0,0.5); padding: 20px; overflow-y: auto; }
+        .sidebar.open { left: 0; }
+        .sidebar-close { background: none; border: none; color: white; font-size: 24px; float: right; cursor: pointer; margin-bottom: 20px; }
+        .subscribe-box { background-color: #116efc; color: white; padding: 12px; text-align: center; border-radius: 20px; font-weight: 700; text-decoration: none; display: block; margin: 40px 0 20px 0; }
+        .sidebar-search { width: 100%; padding: 12px; background-color: #1e1e1e; border: 1px solid #333; color: white; border-radius: 4px; margin-bottom: 20px; font-size: 16px; }
+        .sidebar-menu-items a { display: block; color: #ffffff; text-decoration: none; font-size: 18px; font-weight: 700; padding: 12px 0; border-bottom: 1px solid #1e1e1e; }
+        
+        /* Overlay when sidebar is open */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 150; }
+        .overlay.active { display: block; }
+
+        /* Main Content Layout */
+        main { max-width: 800px; margin: 0 auto; padding: 24px 16px; }
+        .main-headline { font-family: 'Lora', serif; font-size: 32px; line-height: 1.15; font-weight: 700; margin-bottom: 12px; }
+        .sub-headline { font-size: 16px; color: #aaaaaa; line-height: 1.4; margin-bottom: 16px; }
+        .byline { font-size: 13px; color: #888888; margin-bottom: 20px; }
+        
+        /* Image Display */
+        .featured-image-container { margin-bottom: 24px; }
+        .featured-image { width: 100%; height: auto; display: block; border-radius: 4px; }
+        .image-caption { font-size: 13px; color: #aaaaaa; margin-top: 8px; line-height: 1.4; }
+        hr { border: 0; height: 1px; background: #2d2d2d; margin: 30px 0; }
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <nav class="sidebar" id="sidebar">
+        <button class="sidebar-close" onclick="toggleMenu()">✕</button>
+        <a href="#" class="subscribe-box">Save and subscribe</a>
+        <input type="text" class="sidebar-search" placeholder="Ask a question or search">
+        <div class="sidebar-menu-items">
+            <a href="#">Home Page</a>
+            <a href="#">Politics</a>
+            <a href="#">Opinions</a>
+            <a href="#">Style</a>
+            <a href="#">Investigations</a>
+            <a href="#">Climate</a>
+        </div>
+    </nav>
+
+    <header>
+        <div class="nav-top">
+            <div class="nav-left">
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
+                <span class="search-icon">🔍</span>
+            </div>
+            <a href="#" class="logo">The Ngetich Post</a>
+            <div class="nav-right">
+                <a href="#" class="sign-in-btn">Sign In</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-sub">
+        <a href="#" class="active">Top Stories</a>
+        <a href="#">Latest</a>
+        <a href="#">For You</a>
+        <a href="#" class="ai-option">Ask Ngetich AI</a>
+    </div>
+
+    <main>
+        <article>
+            <h1 class="main-headline">Primary night takeaways: Trump demonstrates his power over GOP</h1>
+            <p class="sub-headline">The president’s favorites swept Republican foes in Georgia, Pennsylvania and Kentucky.</p>
+            <p class="byline">By Hannah Knowles, Dan Merica and Patrick Marley</p>
+            
+            <div class="featured-image-container">
+                <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=800" alt="News Image" class="featured-image">
+                <p class="image-caption">Rep. Thomas Massie (R-Kentucky), left, lost to Ed Gallrein. (AFP/Getty Images)</p>
+            </div>
+        </article>
+
+        <hr>
+
+        <article>
+            <h2 class="main-headline" style="font-size: 26px;">Legal deal ending IRS audits of Trump</h2>
+        </article>
+    </main>
+
+    <script>
+        function toggleMenu() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
