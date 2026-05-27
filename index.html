@@ -1,4 +1,33 @@
 <!DOCTYPE html>
+<!-- LOGIN / SIGNUP MODAL -->
+<div id="auth-modal" class="modal-overlay">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">✕</span>
+    <h2 class="modal-title" id="modal-title">Sign In</h2>
+    
+    <form id="auth-form">
+      <div class="form-group" id="name-group" style="display: none;">
+        <label>Full Name</label>
+        <input type="text" placeholder="e.g. Jane Doe" />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="you@example.com" required />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" placeholder="••••••••" required />
+      </div>
+      <button type="submit" class="btn-full" id="auth-btn">Sign In</button>
+    </form>
+    
+    <div class="modal-footer">
+      <span id="auth-switch-text">Don't have an account?</span> 
+      <a onclick="toggleAuthMode()" id="auth-switch-link">Create one</a>
+    </div>
+  </div>
+</div>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
