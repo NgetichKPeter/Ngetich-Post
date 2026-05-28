@@ -376,7 +376,7 @@
       max-width: 740px;
     }
     .comments-title {
-      font-family: 'Franklin Gothic Medium', 'Arial Narrow', sans-serif;
+      font-family: 'Franklin Gothic Medium', sans-serif;
       font-size: 18px; letter-spacing: .08em; text-transform: uppercase;
       color: var(--black); margin-bottom: 20px;
     }
@@ -431,28 +431,37 @@
 
     .img-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #d0ccc4 0%, #b8b4aa 100%); display: flex; align-items: center; justify-content: center; color: #888; font-size: 11px; font-family: 'Franklin Gothic Medium', sans-serif; text-transform: uppercase; }
 
+    /* ── RESPONSIVE OVERRIDES (MOBILE FIRST APPROACH) ── */
     @media (max-width: 900px) {
-      .hero-grid { grid-template-columns: 1fr 1fr; }
-      .story-lead { grid-column: 1 / 3; grid-row: 1; }
-      .story-side-top { grid-column: 1 / 3; grid-row: 2; flex-direction: row; }
-      .story-bottom-left, .story-bottom-mid { grid-column: span 1; grid-row: 3; }
-      .opinion-grid { grid-template-columns: 1fr 1fr; }
-      .footer-cols { grid-template-columns: 1fr 1fr; }
+      .hero-grid { display: flex; flex-direction: column; }
+      .story-lead, .story-side-top, .story-bottom-left, .story-bottom-mid {
+        grid-column: auto !important; grid-row: auto !important;
+        border-right: none !important; border-left: none !important;
+        border-bottom: 1px solid var(--rule);
+      }
+      .story-side-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 0; }
+      .story-side-top .side-item { border-right: 1px solid var(--rule); }
+      .story-side-top .side-item:last-child { border-right: none; }
+      .story-lead .story-img { height: 240px; }
+      .opinion-grid { grid-template-columns: 1fr 1fr; border-left: none; }
+      .ai-banner { flex-direction: column; align-items: stretch; gap: 20px; padding: 24px; }
     }
+
     @media (max-width: 600px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      .story-lead, .story-side-top, .story-bottom-left, .story-bottom-mid { grid-column: 1; }
-      .story-side-top { flex-direction: column; }
+      .story-side-top { display: flex; flex-direction: column; }
+      .story-side-top .side-item { border-right: none !important; }
       .opinion-grid { grid-template-columns: 1fr; }
+      .footer-cols { grid-template-columns: 1fr 1fr; gap: 16px; }
+      .masthead-inner { padding: 8px 0 0; }
+      .nameplate { padding: 2px 0 6px; }
     }
   </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
 <div class="top-bar">
   <div class="top-bar-left">
-    <span>Wednesday, May 27, 2026</span>
+    <span>Thursday, May 28, 2026</span>
   </div>
   <div>
     <a href="#comments-section">Join Discussion</a> &nbsp;|&nbsp;
@@ -460,7 +469,6 @@
   </div>
 </div>
 
-<!-- MASTHEAD -->
 <header class="masthead">
   <div class="masthead-inner">
     <div class="masthead-utilities">
@@ -480,7 +488,6 @@
   </div>
 </header>
 
-<!-- PRIMARY NAV -->
 <nav class="primary-nav">
   <div class="nav-inner">
     <a href="#" class="active">Top Stories</a>
@@ -496,7 +503,6 @@
   </div>
 </nav>
 
-<!-- TRENDING -->
 <div class="trending-bar">
   <span class="trending-label">Trending</span>
   <a href="#">Nairobi Infrastructure</a>
@@ -505,7 +511,6 @@
   <a href="#">Kenya Economy 2026</a>
 </div>
 
-<!-- MAIN CONTENT WRAPPER -->
 <main class="page-wrap">
 
   <div class="tab-bar">
@@ -514,33 +519,163 @@
     <button id="ai-tab">Ngetich AI ✦</button>
   </div>
 
-  <!-- HERO GRID -->
   <div class="hero-grid">
-    <!-- LEAD STORY -->
     <article class="story story-lead">
       <span class="section-tag politics">Politics</span>
       <div class="story-img"><div class="img-placeholder">Ngetich Post Photo</div></div>
       <a href="#"><h1 class="headline">Ngetich sweeps Senate runoff in a landmark victory for grassroots Kenya</h1></a>
       <p class="deck">John Ngetich became the first independent senator to win in the region in over three decades. A groundswell of community support propelled the former teacher to a victory over his nearest rival.</p>
-      <div class="byline">By Staff Reporter &bull; May 27, 2026</div>
+      <div class="byline">By Staff Reporter &bull; May 28, 2026</div>
     </article>
 
-    <!-- SIDE COLUMN -->
     <div class="story-side-top">
       <article class="story side-item">
         <span class="section-tag world">World</span>
         <div class="story-img"><div class="img-placeholder">Photo</div></div>
         <a href="#"><h2 class="headline">East Africa summit ends with historic climate finance deal</h2></a>
         <p class="deck">Leaders from seven nations agreed on a $3bn fund to restore degraded land across the region.</p>
-        <div class="byline">By Amina Waweru &bull; May 27</div>
+        <div class="byline">By Amina Waweru &bull; May 28</div>
       </article>
       <article class="story side-item">
         <span class="section-tag tech">Tech</span>
         <div class="story-img"><div class="img-placeholder">Photo</div></div>
         <a href="#"><h2 class="headline">Nairobi's Silicon Savannah sees record startup investments</h2></a>
         <p class="deck">Venture capital flowing into local AI and renewable energy startups reached unprecedented levels this quarter.</p>
-        <div class="byline">By Tech Desk &bull; May 27</div>
+        <div class="byline">By Tech Desk &bull; May 28</div>
       </article>
     </div>
 
-    <!-- BOTTOM ROW
+    <article class="story story-bottom-left">
+      <span class="section-tag climate">Climate</span>
+      <a href="#"><h3 class="headline">Rift Valley farmers embrace smart-agriculture amidst shifting rains</h3></a>
+      <p class="deck">New drought-resistant seed varieties and communal water-pan systems are helping smallholders sustain crop yields.</p>
+      <div class="byline">By Kiprop Cheruiyot &bull; May 28</div>
+    </article>
+
+    <article class="story story-bottom-mid">
+      <span class="section-tag opinion">Opinion</span>
+      <a href="#"><h3 class="headline">Why devolution is the real engine behind the Silicon Savannah</h3></a>
+      <p class="deck">True economic resilience doesn't stop at Nairobi's borders. Investing in digital hubs across all 47 counties is the next frontier.</p>
+      <div class="byline">By Guest Columnist &bull; May 28</div>
+    </article>
+  </div>
+
+  <section id="ngetich-ai" class="ai-banner">
+    <div class="ai-banner-text">
+      <div class="ai-label">✦ Ngetich AI Insight</div>
+      <h3>Ask our archives anything about regional policy</h3>
+      <p>Get instant summaries, context maps, and historical breakdowns of legislative shifts in East Africa from 2000 to 2026.</p>
+    </div>
+    <div class="ai-search">
+      <input type="text" placeholder="e.g., Explain the 2026 Climate Finance Deal..." readonly />
+    </div>
+  </section>
+
+  <div class="section-header">
+    <h2>Opinion &amp; Analysis</h2>
+    <hr />
+  </div>
+  
+  <div class="opinion-grid">
+    <div class="opinion-card">
+      <div class="author-line">
+        <div class="author-avatar">JM</div>
+        <span class="author-name">John Maina</span>
+      </div>
+      <h3 class="headline">"Grassroots movements are rewiring the expectations of the electorate."</h3>
+      <p class="deck">The Senate runoff proves that voters are looking past party lines for tangible local community track records.</p>
+    </div>
+    <div class="opinion-card">
+      <div class="author-line">
+        <div class="author-avatar">SO</div>
+        <span class="author-name">Sarah Omwamba</span>
+      </div>
+      <h3 class="headline">"Silicon Savannah is hungry for green energy, and the Rift Valley holds the key."</h3>
+      <p class="deck">To sustain our tech boom, we must aggressively tie venture capital to local renewable micro-grids.</p>
+    </div>
+    <div class="opinion-card">
+      <div class="author-line">
+        <div class="author-avatar">EO</div>
+        <span class="author-name">Emmanuel Ochieng</span>
+      </div>
+      <h3 class="headline">"Climate finance funds must prioritize adaptation over bureaucracy."</h3>
+      <p class="deck">The $3bn East Africa deal is a historic milestone, but only if the capital flows directly to smallholder farmers.</p>
+    </div>
+  </div>
+
+  <section id="comments-section" class="comments-container">
+    <h3 class="comments-title">Discussion (2)</h3>
+    
+    <form class="comment-form" onsubmit="event.preventDefault();">
+      <input type="text" placeholder="Your Name" required />
+      <textarea placeholder="Join the discussion..." required></textarea>
+      <button type="submit">Post Comment</button>
+    </form>
+
+    <div class="comments-list">
+      <div class="comment-item">
+        <div class="comment-meta">
+          <span class="comment-author">Mwangi J.</span>
+          <span class="comment-date">May 28, 2026</span>
+        </div>
+        <p class="comment-body">Incredible win for Ngetich. It shows that independent candidates who actually focus on education and local infrastructure can disrupt traditional party politics.</p>
+      </div>
+      <div class="comment-item">
+        <div class="comment-meta">
+          <span class="comment-author">Achieng_Tech</span>
+          <span class="comment-date">May 28, 2026</span>
+        </div>
+        <p class="comment-body">Does anyone have more details on which startups are receiving the AI/Renewable funding mentioned in the Silicon Savannah piece?</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-nameplate">Ngetich Post</div>
+    <div class="footer-motto">Democracy Dies in Darkness</div>
+    <div class="footer-cols">
+      <div class="footer-col">
+        <h4>News</h4>
+        <ul>
+          <li><a href="#">Kenya</a></li>
+          <li><a href="#">Politics</a></li>
+          <li><a href="#">World</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Business &amp; Tech</h4>
+        <ul>
+          <li><a href="#">Silicon Savannah</a></li>
+          <li><a href="#">Green Energy</a></li>
+          <li><a href="#">Finance</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Opinion</h4>
+        <ul>
+          <li><a href="#">Editorial</a></li>
+          <li><a href="#">Op-Eds</a></li>
+          <li><a href="#">Letters</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Subscription</h4>
+        <ul>
+          <li><a href="#">Log In</a></li>
+          <li><a href="#">Subscribe</a></li>
+          <li><a href="#">Help Center</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Ngetich Post. All rights reserved.</span>
+      <span>Nairobi, Kenya</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
