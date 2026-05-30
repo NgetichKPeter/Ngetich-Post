@@ -21,7 +21,7 @@
       --tag-bg: #1a1a1a;
     }
 
-    html { font-size: 16px; }
+    html { font-size: 16px; scroll-behavior: smooth; }
     body {
       background: var(--white);
       color: var(--ink);
@@ -208,6 +208,10 @@
     .tab-bar button.active { color: var(--black); border-bottom-color: var(--black); }
     .tab-bar button:hover { color: var(--black); }
 
+    /* ── VIEW SECTIONS ── */
+    .tab-content { display: none; }
+    .tab-content.active-view { display: block; }
+
     /* ── HERO GRID ── */
     .hero-grid {
       display: grid;
@@ -324,7 +328,7 @@
       font-weight: 700; line-height: 1.2; margin-bottom: 10px;
     }
     .ai-banner-text p { font-size: 14px; color: #b0c4de; line-height: 1.6; }
-    .ai-search { flex: 1; position: relative; }
+    .ai-search { flex: 1; position: relative; display: flex; flex-direction: column; gap: 10px; }
     .ai-search input {
       width: 100%;
       background: rgba(255,255,255,.08);
@@ -333,8 +337,19 @@
       color: #fff;
       font-family: 'Source Serif 4', serif;
       font-size: 14px;
-      padding: 12px 50px 12px 16px;
+      padding: 12px 16px;
       outline: none;
+    }
+    .ai-search input::placeholder { color: #8fa4be; }
+    .ai-response-box {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px dashed rgba(126,185,255,0.2);
+      padding: 12px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: #d1e3ff;
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
     }
 
     /* ── OPINION SECTION ── */
@@ -404,6 +419,7 @@
     .comments-list { display: flex; flex-direction: column; gap: 20px; margin-top: 10px; }
     .comment-item {
       border-bottom: 1px solid var(--rule); padding-bottom: 16px;
+      animation: fadeIn 0.4s ease-out;
     }
     .comment-meta {
       display: flex; align-items: center; gap: 8px;
@@ -431,7 +447,12 @@
 
     .img-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #d0ccc4 0%, #b8b4aa 100%); display: flex; align-items: center; justify-content: center; color: #888; font-size: 11px; font-family: 'Franklin Gothic Medium', sans-serif; text-transform: uppercase; }
 
-    /* ── RESPONSIVE OVERRIDES (MOBILE FIRST APPROACH) ── */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE OVERRIDES ── */
     @media (max-width: 900px) {
       .hero-grid { display: flex; flex-direction: column; }
       .story-lead, .story-side-top, .story-bottom-left, .story-bottom-mid {
@@ -465,7 +486,7 @@
   </div>
   <div>
     <a href="#comments-section">Join Discussion</a> &nbsp;|&nbsp;
-    <a href="#">Subscribe</a>
+    <a href="#" class="btn-subscribe-trigger">Subscribe</a>
   </div>
 </div>
 
@@ -473,10 +494,10 @@
   <div class="masthead-inner">
     <div class="masthead-utilities">
       <div class="util-left">
-        <a href="#">☰ Sections</a>
+        <a href="#" id="menu-toggle">☰ Sections</a>
       </div>
       <div class="util-right">
-        <a href="#" class="btn-subscribe">Save &amp; Subscribe</a>
+        <a href="#" class="btn-subscribe btn-subscribe-trigger">Save &amp; Subscribe</a>
       </div>
     </div>
     <div class="nameplate"><span>Ngetich</span> Post</div>
@@ -490,75 +511,101 @@
 
 <nav class="primary-nav">
   <div class="nav-inner">
-    <a href="#" class="active">Top Stories</a>
-    <a href="#">Latest</a>
-    <a href="#">Politics</a>
-    <a href="#">Opinions</a>
-    <a href="#">Kenya</a>
-    <a href="#">World</a>
-    <a href="#">Business</a>
-    <a href="#">Tech</a>
-    <a href="#">Climate</a>
-    <a href="#ngetich-ai" class="ai-link">✦ Ngetich AI</a>
+    <a href="#" class="nav-btn active" data-target="top-stories-view">Top Stories</a>
+    <a href="#" class="nav-btn" data-target="latest-view">Latest</a>
+    <a href="#" class="nav-btn" data-target="top-stories-view">Politics</a>
+    <a href="#" class="nav-btn" data-target="opinion-view-anchor">Opinions</a>
+    <a href="#" class="nav-btn" data-target="top-stories-view">Kenya</a>
+    <a href="#" class="nav-btn" data-target="top-stories-view">World</a>
+    <a href="#" class="nav-btn" data-target="top-stories-view">Business</a>
+    <a href="#" class="nav-btn" data-target="top-stories-view">Tech</a>
+    <a href="#" class="nav-btn" data-target="top-stories-view">Climate</a>
+    <a href="#ngetich-ai" class="ai-link nav-btn" data-target="ai-view-tab">✦ Ngetich AI</a>
   </div>
 </nav>
 
 <div class="trending-bar">
   <span class="trending-label">Trending</span>
-  <a href="#">Nairobi Infrastructure</a>
-  <a href="#">East Africa Elections</a>
-  <a href="#">Rift Valley Climate</a>
-  <a href="#">Kenya Economy 2026</a>
+  <a href="#" class="trend-tag">Nairobi Infrastructure</a>
+  <a href="#" class="trend-tag">East Africa Elections</a>
+  <a href="#" class="trend-tag">Rift Valley Climate</a>
+  <a href="#" class="trend-tag">Kenya Economy 2026</a>
 </div>
 
 <main class="page-wrap">
 
   <div class="tab-bar">
-    <button class="active">Top Stories</button>
-    <button>Latest</button>
-    <button id="ai-tab">Ngetich AI ✦</button>
+    <button class="tab-trigger active" data-view="top-stories-view">Top Stories</button>
+    <button class="tab-trigger" data-view="latest-view">Latest</button>
+    <button class="tab-trigger" data-view="ai-view-tab" id="ai-tab">Ngetich AI ✦</button>
   </div>
 
-  <div class="hero-grid">
-    <article class="story story-lead">
-      <span class="section-tag politics">Politics</span>
-      <div class="story-img"><div class="img-placeholder">Ngetich Post Photo</div></div>
-      <a href="#"><h1 class="headline">Ngetich sweeps Senate runoff in a landmark victory for grassroots Kenya</h1></a>
-      <p class="deck">John Ngetich became the first independent senator to win in the region in over three decades. A groundswell of community support propelled the former teacher to a victory over his nearest rival.</p>
-      <div class="byline">By Staff Reporter &bull; May 28, 2026</div>
-    </article>
-
-    <div class="story-side-top">
-      <article class="story side-item">
-        <span class="section-tag world">World</span>
-        <div class="story-img"><div class="img-placeholder">Photo</div></div>
-        <a href="#"><h2 class="headline">East Africa summit ends with historic climate finance deal</h2></a>
-        <p class="deck">Leaders from seven nations agreed on a $3bn fund to restore degraded land across the region.</p>
-        <div class="byline">By Amina Waweru &bull; May 28</div>
+  <!-- ── VIEW CONTAINER: TOP STORIES ── -->
+  <div id="top-stories-view" class="tab-content active-view">
+    <div class="hero-grid">
+      <article class="story story-lead">
+        <span class="section-tag politics">Politics</span>
+        <div class="story-img"><div class="img-placeholder">Ngetich Post Photo</div></div>
+        <a href="#"><h1 class="headline">Ngetich sweeps Senate runoff in a landmark victory for grassroots Kenya</h1></a>
+        <p class="deck">John Ngetich became the first independent senator to win in the region in over three decades. A groundswell of community support propelled the former teacher to a victory over his nearest rival.</p>
+        <div class="byline">By Staff Reporter &bull; May 28, 2026</div>
       </article>
-      
-      <article class="story side-item">
-        <span class="section-tag tech">Tech</span>
-        <div class="story-img"><div class="img-placeholder">Tech Innovation Photo</div></div>
-        <a href="#"><h2 class="headline">Silicon Savannah's new hub targets deep tech and AI localization</h2></a>
-        <p class="deck">A new tech corridor launched outside Nairobi aims to decentralize engineering talent across East Africa.</p>
-        <div class="byline">By David Mwangi &bull; May 28</div>
+
+      <div class="story-side-top">
+        <article class="story side-item">
+          <span class="section-tag world">World</span>
+          <div class="story-img"><div class="img-placeholder">Photo</div></div>
+          <a href="#"><h2 class="headline">East Africa summit ends with historic climate finance deal</h2></a>
+          <p class="deck">Leaders from seven nations agreed on a $3bn fund to restore degraded land across the region.</p>
+          <div class="byline">By Amina Waweru &bull; May 28</div>
+        </article>
+        
+        <article class="story side-item">
+          <span class="section-tag tech">Tech</span>
+          <div class="story-img"><div class="img-placeholder">Tech Innovation Photo</div></div>
+          <a href="#"><h2 class="headline">Silicon Savannah's new hub targets deep tech and AI localization</h2></a>
+          <p class="deck">A new tech corridor launched outside Nairobi aims to decentralize engineering talent across East Africa.</p>
+          <div class="byline">By David Mwangi &bull; May 28</div>
+        </article>
+      </div>
+
+      <article class="story story-bottom-left">
+        <span class="section-tag climate">Climate</span>
+        <a href="#"><h3 class="headline">Rift Valley water levels hit historic markers down baseline</h3></a>
+        <p class="deck">New ecological patterns trace complex transformations altering local agricultural output models.</p>
+        <div class="byline">By Solar Editorial Team</div>
+      </article>
+
+      <article class="story story-bottom-mid">
+        <span class="section-tag world">Kenya</span>
+        <a href="#"><h3 class="headline">Logistics expansions clear bottlenecks across transit systems</h3></a>
+        <p class="deck">Municipal infrastructure overhauls set records optimizing regional supply chain velocities.</p>
+        <div class="byline">By Trade Desk</div>
       </article>
     </div>
+  </div>
 
-    <article class="story story-bottom-left">
-      <span class="section-tag climate">Climate</span>
-      <a href="#"><h3 class="headline">Rift Valley water levels hit historic markers down baseline</h3></a>
-      <p class="deck">New ecological patterns trace complex transformations altering local agricultural output models.</p>
-      <div class="byline">By Solar Editorial Team</div>
-    </article>
+  <!-- ── VIEW CONTAINER: LATEST STORIES (DYNAMICALLY SHOWING LATEST UPDATES) ── -->
+  <div id="latest-view" class="tab-content">
+    <div class="section-header">
+      <h2>Real-Time Breaking Feed</h2>
+      <hr />
+    </div>
+    <div class="comments-list" style="gap:15px;">
+      <div style="border-left: 3px solid var(--accent); padding-left:15px;">
+        <h4 style="font-family:sans-serif; font-size:13px; color:var(--accent);">JUST IN &bull; 14 mins ago</h4>
+        <p style="font-weight:bold; margin:4px 0;">Nairobi NSE Index climbs 1.4% following trade optimization announcements.</p>
+      </div>
+      <div style="border-left: 3px solid var(--mid); padding-left:15px;">
+        <h4 style="font-family:sans-serif; font-size:13px; color:var(--mid);">2 hours ago</h4>
+        <p style="font-weight:bold; margin:4px 0;">Local agricultural unions endorse Rift Valley sustainability metrics blueprint.</p>
+      </div>
+    </div>
+  </div>
 
-    <article class="story story-bottom-mid">
-      <span class="section-tag world">Kenya</span>
-      <a href="#"><h3 class="headline">Logistics expansions clear bottlenecks across transit systems</h3></a>
-      <p class="deck">Municipal infrastructure overhauls set records optimizing regional supply chain velocities.</p>
-      <div class="byline">By Trade Desk</div>
-    </article>
+  <!-- ── VIEW CONTAINER: AI VIEW PANEL ── -->
+  <div id="ai-view-tab" class="tab-content">
+    <!-- Will natively focus the search interface below -->
   </div>
 
   <!-- ── NGETICH AI BANNER ── -->
@@ -569,12 +616,13 @@
       <p>Ask our localized model complex policy questions, cross-reference archive data, or parse regional legislative documents instantly.</p>
     </div>
     <div class="ai-search">
-      <input type="text" placeholder="Ask Ngetich AI... e.g., 'Break down the $3bn East Africa climate fund allocations'" />
+      <input type="text" id="ai-input-field" placeholder="Ask Ngetich AI... e.g., 'Break down the climate fund' or 'Who is John Ngetich?' (Press Enter)" />
+      <div id="ai-output-response" class="ai-response-box"></div>
     </div>
   </section>
 
   <!-- ── OPINION SECTION ── -->
-  <div class="section-header">
+  <div id="opinion-view-anchor" class="section-header">
     <h2>Opinions &amp; Analysis</h2>
     <hr />
   </div>
@@ -610,45 +658,16 @@
 
   <!-- ── GOOGLE SHEETS MODERN COMMENT SYSTEM ── -->
   <section id="comments-section" class="comments-container">
-    <h3 class="comments-title">Discussion (3)</h3>
+    <h3 class="comments-title" id="comments-header-counter">Discussion (3)</h3>
     
-    <form class="comment-form">
-      <input type="text" placeholder="Your Name" required />
-      <textarea placeholder="Join the conversation... Keep it civil, constructive, and on-topic." required></textarea>
+    <form class="comment-form" id="comment-submission-form">
+      <input type="text" id="form-author-name" placeholder="Your Name" required />
+      <textarea id="form-comment-body" placeholder="Join the conversation... Keep it civil, constructive, and on-topic." required></textarea>
       <button type="submit">Post Comment</button>
     </form>
 
-    <div class="comments-list">
-      <div class="comment-item">
-        <div class="comment-meta">
-          <span class="comment-author">Grace K.</span>
-          <span class="comment-date">May 29, 2026</span>
-        </div>
-        <div class="comment-body">
-          Seeing an independent candidate like Ngetich take the Senate seat gives me real hope for localized governance. The focus on public school reform resonated with everyday voters.
-        </div>
-        <div class="comment-status">✓ Verified Subscriber</div>
-      </div>
-
-      <div class="comment-item">
-        <div class="comment-meta">
-          <span class="comment-author">Omondi_V</span>
-          <span class="comment-date">May 29, 2026</span>
-        </div>
-        <div class="comment-body">
-          We need to watch the implementation metrics of that climate fund closely. $3 billion sounds massive, but distributed over seven partner nations over multiple fiscal years means strict management is vital.
-        </div>
-      </div>
-
-      <div class="comment-item">
-        <div class="comment-meta">
-          <span class="comment-author">TechNomad</span>
-          <span class="comment-date">May 28, 2026</span>
-        </div>
-        <div class="comment-body">
-          The deep tech hub initiative outside Nairobi is exactly what we need to slow down real estate inflation inside the central business district. Hope the power grid grid-balancing matches their promises!
-        </div>
-      </div>
+    <div class="comments-list" id="live-comments-hook">
+      <!-- Fallback static items will be parsed inside client storage script init -->
     </div>
   </section>
 
@@ -704,6 +723,162 @@
     </div>
   </div>
 </footer>
+
+<!-- ── NATIVE CORE JAVASCRIPT SYSTEM ENGINE ── -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  
+  // 1. NATIVE TAB CONTROLLER SYSTEM
+  const tabTriggers = document.querySelectorAll(".tab-trigger");
+  const tabContents = document.querySelectorAll(".tab-content");
+
+  function changeTab(targetViewId) {
+    tabContents.forEach(content => content.classList.remove("active-view"));
+    tabTriggers.forEach(trigger => trigger.classList.remove("active"));
+
+    const activeTrigger = document.querySelector(`[data-view="${targetViewId}"]`);
+    if (activeTrigger) activeTrigger.classList.add("active");
+
+    if (targetViewId === "ai-view-tab") {
+      document.getElementById("top-stories-view").classList.add("active-view");
+      document.getElementById("ngetich-ai").scrollIntoView({ behavior: "smooth" });
+      document.getElementById("ai-input-field").focus();
+    } else {
+      const activeContent = document.getElementById(targetViewId);
+      if (activeContent) activeContent.classList.add("active-view");
+    }
+  }
+
+  tabTriggers.forEach(btn => {
+    btn.addEventListener("click", () => changeTab(btn.dataset.view));
+  });
+
+  // Connect primary navigation links directly into tab layout structures
+  document.querySelectorAll(".nav-btn").forEach(link => {
+    link.addEventListener("click", (e) => {
+      const target = link.getAttribute("data-target");
+      if(target === "opinion-view-anchor") {
+        e.preventDefault();
+        document.getElementById("opinion-view-anchor").scrollIntoView({ behavior: "smooth" });
+      } else if (target) {
+        e.preventDefault();
+        changeTab(target);
+      }
+    });
+  });
+
+  // 2. INTERACTIVE COMPUTATIONAL AI ENGINE Simulation
+  const aiInput = document.getElementById("ai-input-field");
+  const aiOutput = document.getElementById("ai-output-response");
+
+  const knowledgeGraph = {
+    "fund": "Ngetich AI Analysis: The $3bn East Africa Climate Fund allocates roughly 40% directly toward Rift Valley forestation metrics, with 35% targeted for water-table preservation systems across cross-border hubs.",
+    "climate": "Ngetich AI Analysis: The $3bn East Africa Climate Fund allocates roughly 40% directly toward Rift Valley forestation metrics, with 35% targeted for water-table preservation systems across cross-border hubs.",
+    "ngetich": "Ngetich AI Analysis: Senator-elect John Ngetich's grassroots campaign secured 54.2% of the total regional runoff distributions, marking a record historic shift toward Independent Candidate mandates in regional history.",
+    "senate": "Ngetich AI Analysis: Senator-elect John Ngetich's grassroots campaign secured 54.2% of the total regional runoff distributions, marking a record historic shift toward Independent Candidate mandates in regional history.",
+    "savannah": "Ngetich AI Analysis: Deep Tech Corridor projections outside Nairobi anticipate adding 12,000 localized technical engineering roles within East Africa by Q4 2026.",
+    "tech": "Ngetich AI Analysis: Deep Tech Corridor projections outside Nairobi anticipate adding 12,000 localized technical engineering roles within East Africa by Q4 2026."
+  };
+
+  aiInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      const query = aiInput.value.toLowerCase().trim();
+      if (!query) return;
+
+      aiOutput.style.display = "block";
+      aiOutput.innerText = "Analyzing live news archives...";
+
+      setTimeout(() => {
+        let match = Object.keys(knowledgeGraph).find(key => query.includes(key));
+        if (match) {
+          aiOutput.innerText = knowledgeGraph[match];
+        } else {
+          aiOutput.innerText = `Ngetich AI Data Output: Core insights for "${aiInput.value}" processed successfully. Local news feeds report active legislative metrics tracking your topic throughout East Africa.`;
+        }
+      }, 600);
+    }
+  });
+
+  // 3. STORAGE PERSISTENT GOOGLE-SHEETS TYPE COMMENT REGISTRY
+  const defaultComments = [
+    { name: "Grace K.", date: "May 29, 2026", body: "Seeing an independent candidate like Ngetich take the Senate seat gives me real hope for localized governance. The focus on public school reform resonated with everyday voters.", status: "✓ Verified Subscriber" },
+    { name: "Omondi_V", date: "May 29, 2026", body: "We need to watch the implementation metrics of that climate fund closely. $3 billion sounds massive, but distributed over seven partner nations over multiple fiscal years means strict management is vital.", status: "" },
+    { name: "TechNomad", date: "May 28, 2026", body: "The deep tech hub initiative outside Nairobi is exactly what we need to slow down real estate inflation inside the central business district. Hope the power grid grid-balancing matches their promises!", status: "" }
+  ];
+
+  function getComments() {
+    const local = localStorage.getItem("ngetich_public_comments");
+    return local ? JSON.parse(local) : defaultComments;
+  }
+
+  function renderComments() {
+    const listHook = document.getElementById("live-comments-hook");
+    const countHeader = document.getElementById("comments-header-counter");
+    const records = getComments();
+
+    countHeader.innerText = `Discussion (${records.length})`;
+    listHook.innerHTML = "";
+
+    records.forEach(item => {
+      const itemBlock = document.createElement("div");
+      itemBlock.className = "comment-item";
+      itemBlock.innerHTML = `
+        <div class="comment-meta">
+          <span class="comment-author">${escapeHtml(item.name)}</span>
+          <span class="comment-date">${item.date}</span>
+        </div>
+        <div class="comment-body">${escapeHtml(item.body)}</div>
+        ${item.status ? `<div class="comment-status">${item.status}</div>` : ''}
+      `;
+      listHook.appendChild(itemBlock);
+    });
+  }
+
+  function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  document.getElementById("comment-submission-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const nameField = document.getElementById("form-author-name");
+    const bodyField = document.getElementById("form-comment-body");
+
+    const newComment = {
+      name: nameField.value.trim(),
+      body: bodyField.value.trim(),
+      date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+      status: "✓ Guest Voice"
+    };
+
+    const records = getComments();
+    records.unshift(newComment); // Push to top like real news systems
+    localStorage.setItem("ngetich_public_comments", JSON.stringify(records));
+
+    nameField.value = "";
+    bodyField.value = "";
+    renderComments();
+  });
+
+  // UI Utilities
+  document.querySelectorAll(".btn-subscribe-trigger").forEach(el => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      alert("Subscription Engine Gateway: Premium paywall configuration mock connected successfully.");
+    });
+  });
+
+  document.querySelectorAll(".trend-tag").forEach(el => {
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      aiInput.value = el.innerText;
+      changeTab("ai-view-tab");
+    });
+  });
+
+  // Run initialization
+  renderComments();
+});
+</script>
 
 </body>
 </html>
